@@ -23,7 +23,19 @@ public class MyRPG {
 	    }
 	}
     }// end printWithDelay
+    
+    public static void dailyLife (int choice) { 
+	String s; 
+	if (choice == 1) { 
+	    fightMonster(); 
+	}
+    }
 
+    //dailyLife option 1
+    public static void fightMonster () { 
+
+    }
+    
     public void newGame() { 
 
 	//starting a new game... 
@@ -56,14 +68,27 @@ public class MyRPG {
 
 	//time to begin? initialize a new one
 	s= "I see...I see...\n"; 
-	s+= "Well, it appears it is time to start your adventure..."; 
+	s+= "Well, it appears it is time to start your adventure...\n"; 
 	printWithDelay (s); 
 	if (holder == 1) { 
 	    noob = new Warrior (name); 
 	} 
 	else { 
 	    noob = new Mage(name); 
+	} 
+
+	//story time 
+	s= "So...for the time being you're in town.\n"; 
+	s+= "What can you do in town?\n";
+	s+= "Well, as of right now you have these options: \n"; 
+	s+= "1. Fight some gnarly monsters\n"; 
+	s+= "Note: I'll let you figure out the little details of each choice. ;)\n";
+	printWithDelay(s);
+	try {
+	    holder = Integer.parseInt(in.readLine());
 	}
+	catch ( IOException e ) { }
+	dailyLife(holder); 
 	
     }//end newGame 
 
