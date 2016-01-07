@@ -1,78 +1,64 @@
-/*=============================================
-  class Character -- superclass for combatants in Ye Olde RPG
-  =============================================*/
-
 public abstract class Character {
 
-    // ~~~~~~~~~~~ INSTANCE VARIABLES ~~~~~~~~~~~
     protected int _hitPts;
     protected int _strength;
-    protected int _defense;
-    protected double _attack;
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    protected int _defense; 
+    protected int _EXP;
+    protected int _origHitPts; 
+    protected int _daysAlive;
+    protected int _level; 
+    protected int _Bstrength; 
 
-
-    /*=============================================
-      default constructor
-      pre:  instance vars are declared
-      post: initializes instance vars.
-      =============================================*/
     public Character() {
-	_hitPts = 125;
-	_strength = 100;
-	_defense = 40;
-	_attack = .4;
+	_hitPts = 1;
+	_strength = 0;
+	_defense = 0; 
+	_EXP = 0;
+	_origHitPts = _hitPts; 
+	_daysAlive = 0; 
+	_level = 1;
     }
 
-
-    // ~~~~~~~~~~~~~~ ACCESSORS ~~~~~~~~~~~~~~~~~
-    public int getDefense() { return _defense; }
+     public void printWithDelay (String s) { 
+	for ( int x = 0 ; x < s.length() ; x++ ) { 
+	    System.out.print (s.substring(x,x+1)); 
+	    try {
+		Thread.sleep(20); 
+	    } catch (Exception e) {
+		e.printStackTrace();
+	    }
+	}
+    }// end printWithDelay
+    
     public int getHealth() {
 	if (_hitPts < 0){
 	    return 0;
 	}
 	return _hitPts;
     }
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  
-    /*=============================================
-      boolean isAlive() -- tell whether I am alive
-      post: returns boolean indicated alive or dead
-      =============================================*/
+
     public boolean isAlive() {
 	return _hitPts > 0;
     }
 
-
-    /*=============================================
-      int attack(Character) -- simulates attack on a Monster
-      pre:  Input not null
-      post: Calculates damage to be inflicted, flooring at 0. 
-      Calls opponent's lowerHP() method to inflict damage. 
-      Returns damage dealt.
-      =============================================*/
     public int attack( Character opponent ) {
 
-	int damage = (int)( (_strength * _attack) - opponent.getDefense() );
+	int damage =  _Bstrength - opponent.getDefense();
 	//System.out.println( "\t\t**DIAG** damage: " + damage );
 
-	if ( damage < 0 )
-	    damage = 0;
+	if ( damage <= 0 )
+	    damage = 1;
 	opponent.lowerHP( damage );
 
 	return damage;
     }//end attack
 
-
-    /*=============================================
-      void lowerHP(int) -- lowers life by input value
-      pre:  Input >= 0
-      post: Life instance var is lowered by input ammount.
-      =============================================*/
     public void lowerHP( int damageInflicted ) {
 	_hitPts = _hitPts - damageInflicted;
     }
-
-    public abstract void specialize2();
+    public void gainEXP (int exp) { 
+	_EXP = _EXP + exp; 
+    } 
     
     public abstract void specialize();
 
@@ -81,30 +67,80 @@ public abstract class Character {
     public abstract String moveSet();
 
     public String getName(){
-	return "Donald Trump";
+	return "???";
     }
+
+    public void daysAliveIncrement () { 
+	_daysAlive += 1;
+    }  
+
+    public void setHitPts (int hitPts) { 
+	_hitPts = hitPts;
+    } 
     
-    public String about() {
-	String s = "";
-	s += "WARRIOR: \n";
-	s += "A renowned fighter whose courage is unquestioned and his might undisputed. He indefatigably fights against the forces of evil and happens to be around and up for slime fighting.\n";
-	s += "\tMove Set: Sword Swing || Assault || Parry\n\n";
+    public int getHitPts () { 
+	return _hitPts; 
+    } 
+    
+    public void setOrigHitPts (int hitPts) { 
+	_origHitPts = _hitPts;
+    } 
 
-	s += "MAGE: \n";
-	s += "A connoisseur of the ancient arts and having years of experience studying modern magic, the mage wishes to study the new foes that appear before him in order to forward his knowledge.\n";
-	s += "\tMove Set: Mana Blast || Fireball || Mana Regeneration\n\n";
-
-	s += "ROGUE: \n";
-	s += "Born in a poor village, the rogue used wit and deceit in order to survive. In order to make a living, the rogue fights monsters and reaps the gold that they drop.\n";
-	s += "\tMove Set: Knife Cut || Assasinate || Evade\n\n";
-
-	s += "VAMPIRE: \n";
-	s += "Hungry for fresh blood, the vampire is constantly on the prowl for new monsters to take on. With insane regeneration abilities, the vampire can dish out damage while sustaining himself.\n";
-	s += "\tMove Set: Bite || Transfusion || Bloodlust\n\n";
-
-	s += "BERSERKER: \n";
-	s += "Unafraid of death, the berserker lives for the thrill of battle. Motivated by the possiblity of glory, he fights every battle with reckless abandon.\n";
-	s += "\tMove Set: Smashing Blow || Reckless Swing || Conquer\n\n";
-	return s;
+    public int getOrigHitPts () { 
+	return _origHitPts; 
     }
+
+    public void setStrength(int str) { 
+	_strength = str; 
+    } 
+    
+    public int getStrength () { 
+	return _strength;
+    } 
+    
+    public void setDefense (int def) { 
+	_defense = def; 
+    } 
+    
+    public int getDefense () { 
+	return _defense; 
+    } 
+    
+    public int getDaysAlive() { 
+	return _daysAlive;
+    } 
+
+    public abstract String about(); 
+    
+    public int getLevel () { 
+	return _level; 
+    } 
+
+    public void levelUp () { 
+	if ((_level * (10 + _level)) < _EXP) { 
+	    _level += 1;  
+	    String s;  
+	    int h1,h2,h3;
+	    s= "Congrats. You leveled up!\n"; 
+	    s+= "You are now " + getLevel() + "!\n"; 
+	    printWithDelay(s); 
+	    s= "Your stats have increased as well!\n"; 
+	    h1 = (int)(Math.random() * 6); 
+	    h2 = (int)(Math.random() * 3); 
+	    h3 = (int)(Math.random() * 3); 
+	    s+= "Your health as been increased by " + h1 + " point(s)!\n"; 
+	    setHitPts(getHitPts() + h1); 
+	    setOrigHitPts(getHitPts());
+	    s+= "Your strength as been increased by " + h2 + " point(s)!\n";
+	    setStrength(getStrength() + h2); 
+	    s+= "Your defense as been increased by " + h3 + " point(s)!\n"; 
+	    setDefense(getDefense() + h3); 
+	    printWithDelay (s);
+	} 
+    } 
+    
+    public int getEXP () { 
+	return _EXP;
+    } 
+
 }//end class Character

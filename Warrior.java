@@ -1,72 +1,42 @@
-/*=============================================
-  class Warrior -- protagonist of Ye Olde RPG
-  =============================================*/
- 
 public class Warrior extends Character {
 
-    // ~~~~~~~~~~~ INSTANCE VARIABLES ~~~~~~~~~~~
-    private String _name = "J. Doe";
-    // other attribs inherited from superclass
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-    /*=============================================
-      default constructor
-      pre:  instance vars are declared
-      post: initializes instance vars.
-      =============================================*/
+    private String _name = "J. Doe"; 
+  
     public Warrior() {
-	_hitPts = 170;
-	_strength = 100;
-	_defense = 40;
-	_attack = .4;
+	_hitPts = 10;
+	_strength = 5;
+	_defense = 0; 
+	_EXP = 0;
+	_daysAlive = 0; 
+	_origHitPts = _hitPts;  
+	_Bstrength = 0;
     }
 
-
-    /*=============================================
-      overloaded constructor
-      pre:  instance vars are declared
-      post: initializes instance vars. _name is set to input String.
-      =============================================*/
     public Warrior( String name ) {
 	this();
 	_name = name;
     }
 
-
-    // ~~~~~~~~~~~~~~ ACCESSORS ~~~~~~~~~~~~~~~~~
     public String getName() { return _name; }
-    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    //prepare a Warrior for a special attack
-    public void specialize2(){
-	_attack = .25;
-	_defense = 60;
-    }
-    
-    //prepare a Warrior for a special attack
     public void specialize() {
-	_attack = .75;
-	_defense = 20;
+	_Bstrength = _strength + 2;
     }
 
-    //revert to normal mode
     public void normalize() {
-	_attack = .4;
-	_defense = 40;
+	_Bstrength = _strength;
     }
 
     public String moveSet(){
 	String s = "";
-	s += "\t1: Sword Swing\n\t2: Assault\n\t3: Parry\n";
+	s += "\t1: Basic Attack\n\t2: Offensive Charge\n";
 	return s;
-    }
+    } 
 
     public String about(){
 	String s = "";
 	s += "WARRIOR: \n";
 	s += "A renowned fighter whose courage is unquestioned and his might undisputed. He indefatigably fights against the forces of evil and happens to be around and up for slime fighting.\n";
-	s += "\tMove Set: Sword Swing || Assault || Parry\n\n";
 	return s;
     }
 
